@@ -1,7 +1,9 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { GlobalContext } from "../contexts/GlobalContext";
 
 function AddTask() {
-
+  
+    const { addTask } = useContext(GlobalContext);
     const [title, setTitle] = useState("");
     const [error, setError] = useState("");
 
@@ -9,7 +11,7 @@ function AddTask() {
     const statusRef = useRef();
 
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
-
+  
 
     function validateTitle(title) {
 
@@ -26,7 +28,7 @@ function AddTask() {
         return "";
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         const errorMessage = validateTitle(title);
@@ -44,15 +46,20 @@ function AddTask() {
             status: statusRef.current.value
         };
 
-        console.log(task);
-    }
+        try {
+            await addTask(task);
 
+            alert("Task aggiunto con successo!");
+        } catch (error) {
+            alert(error.message);
+        }
+    }
 
     return (
         <div>
             <h1>Aggiungi Task</h1>
 
-            <form  onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
 
                 <div>
                     <label htmlFor="title">

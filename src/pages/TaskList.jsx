@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GlobalContext } from "../contexts/Globalcontext.jsx";
+import { GlobalContext } from "../contexts/GlobalContext.jsx";
 import TaskRow from "../components/TaskRow.jsx";
 
 function TaskList() {
