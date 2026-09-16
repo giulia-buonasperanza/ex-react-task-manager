@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styles from "./TaskRow.module.css";
 
 function TaskRow({ task }) {
@@ -5,7 +6,7 @@ function TaskRow({ task }) {
     return (
         <tr>
             <td>{task.title}</td>
-            <td className={`${styles.status} ${styles[task.status.toLowerCase().replace(" ", "-")]}`} >
+            <td className={`${styles[task.status.toLowerCase().replace(" ", "-")]}`} >
                 {task.status}
             </td>
             <td>{task.createdAt}</td>
@@ -13,4 +14,4 @@ function TaskRow({ task }) {
     );
 }
 
-export default TaskRow;
+export default memo(TaskRow);
