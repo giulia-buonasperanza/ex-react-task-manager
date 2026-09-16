@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { GlobalContext } from "../contexts/Globalcontext.jsx";
+import TaskRow from "../components/TaskRow.jsx";
 
 function TaskList() {
 
@@ -21,7 +22,12 @@ function TaskList() {
                 </thead>
 
                 <tbody>
-                    {/*  task */}
+                    {tasks.map((task) => (
+                        <TaskRow
+                            key={task.id}
+                            task={task}
+                        />
+                    ))}
                 </tbody>
             </table>
         </div>
