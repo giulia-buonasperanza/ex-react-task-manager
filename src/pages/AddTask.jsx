@@ -2,7 +2,7 @@ import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../contexts/GlobalContext";
 
 function AddTask() {
-  
+
     const { addTask } = useContext(GlobalContext);
     const [title, setTitle] = useState("");
     const [error, setError] = useState("");
@@ -11,7 +11,7 @@ function AddTask() {
     const statusRef = useRef();
 
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
-  
+
 
     function validateTitle(title) {
 
@@ -50,6 +50,11 @@ function AddTask() {
             await addTask(task);
 
             alert("Task aggiunto con successo!");
+
+            setTitle("");
+            descriptionRef.current.value = "";
+            statusRef.current.value = "To do";
+            
         } catch (error) {
             alert(error.message);
         }
