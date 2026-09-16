@@ -26,7 +26,10 @@ function useTasks() {
     }
 
     return {
-        tasks
+        tasks,
+        addTask,
+        removeTask,
+        updateTask
     };
 }
 
