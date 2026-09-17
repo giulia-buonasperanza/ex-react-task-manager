@@ -1,7 +1,27 @@
-function TakDetail() {
-<>
-<h1>Task Detail</h1>
-</>
+import { useContext} from "react";
+import { useParams} from "react-router-dom";
+import { GlobalContext } from "../contexts/GlobalContext";
+
+function TaskDetail() {
+    const { id } = useParams();
+    const { tasks } = useContext(GlobalContext);
+
+    const task = tasks.find((task) => task.id === parseInt(id));
+
+    if (!task) {
+        return <div>Task non trovato</div>;
+    }
+
+    return (
+        <div>
+            <h1>{task.title}</h1>
+            <p>{task.description}</p>
+            <p>Status: {task.status}</p>
+            <p>Creato il : {task.createdAt}</p>
+
+            <button onClick={() => console.log("Elimina Task")}> Elimina Task</button>
+        </div>
+    );
 }
 
-export default TakDetail;
+export default TaskDetail;
