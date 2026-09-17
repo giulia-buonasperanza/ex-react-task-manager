@@ -32,8 +32,22 @@ function useTasks() {
         }
     }
 
-    function removeTask() {
+    async function removeTask(taskId) {
 
+        const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/tasks/${taskId}`, {
+                method: "DELETE"
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+            setTasks((currentTasks) => 
+                currentTasks.filter((task) => task.id !== (taskId)));
+        } else {
+            throw new Error(data.message);
+        }
     }
 
     function updateTask() {
