@@ -6,7 +6,7 @@ function TaskDetail() {
     const { id } = useParams();
     const { tasks } = useContext(GlobalContext);
 
-    const task = tasks.find((task) => task.id === parseInt(id));
+    const task = tasks.find((task) => Number(task.id) === Number(id));
 
     if (!task) {
         return <div>Task non trovato</div>;
