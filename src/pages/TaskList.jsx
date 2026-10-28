@@ -1,16 +1,41 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useState, useCallback } from "react";
 import { GlobalContext } from "../contexts/GlobalContext.jsx";
 import TaskRow from "../components/TaskRow.jsx";
 
 
+function debounce(callback, delay) {
+    let timeout;
+
+    return (value) => {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+            callback(value);
+        }, delay);
+    };
+}
+
 function TaskList() {
     const [sortBy, setSortBy] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const { tasks } = useContext(GlobalContext);
 
+    const debounceSearch = useCallback(
+        debounce((value) => {
+            setSearchQuery(value);
+        }, 300),
+        []
+    );
+
     const sortedTasks = useMemo(() => {
-        return [...tasks].sort((a, b) => {
+
+        const filteredTasks = tasks.filter((task) =>
+            task.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        return filteredTasks.sort((a, b) => {
             let result = 0;
 
             if (sortBy === "title") {
@@ -35,7 +60,7 @@ function TaskList() {
 
             return result * sortOrder;
         });
-    }, [tasks, sortBy, sortOrder]);
+    }, [tasks, sortBy, sortOrder, searchQuery]);
 
 
     function handleSort(column) {
@@ -53,6 +78,13 @@ function TaskList() {
 
         <div>
             <h1>Lista dei Task</h1>
+
+            <input
+                type="text"
+                placeholder="Cerca un task..."
+                onChange={(e) => debounceSearch(e.target.value)}
+            />
+
 
             <table>
                 <thead>
